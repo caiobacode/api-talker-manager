@@ -31,4 +31,9 @@ app.get('/talker/:id', async (req, res) => {
   const errorMsg = { message: 'Pessoa palestrante não encontrada' };
   if (!data) res.status(404).json(errorMsg);
   else res.status(200).json(data);
-  });
+});
+
+app.post('/login', (req, res) => {
+  const id = Math.random().toString().substring(0, 16);
+  res.status(200).json({ token: id });
+});
