@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs/promises');
+const { validateInputs } = require('./Services/Functions');
 
 const talkerJson = path.resolve(__dirname, './talker.json');
 
@@ -33,7 +34,7 @@ app.get('/talker/:id', async (req, res) => {
   else res.status(200).json(data);
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', validateInputs, (req, res) => {
   const id = Math.random().toString().substring(0, 16);
   res.status(200).json({ token: id });
 });
