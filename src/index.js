@@ -2,7 +2,14 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs/promises');
 const { validateInputs } = require('./middlewares/validateLogin');
-const { validateInfo } = require('./middlewares/validateTalker');
+const { 
+  authName, 
+  authAge, 
+  authTalk, 
+  authRate,
+  authToken,
+  authWatchedAt,
+} = require('./middlewares/talkerAuth/validateTalker');
 
 const talkerJson = path.resolve(__dirname, './talker.json');
 
@@ -40,7 +47,14 @@ app.post('/login', validateInputs, (req, res) => {
   res.status(200).json({ token: id });
 });
 
-app.post('/talker', validateInfo, async (req, res) => {
+app.post('/talker', 
+  authToken,
+  authName, 
+  authAge, 
+  authTalk, 
+  authRate,
+  authWatchedAt,
+  async (req, res) => {
   const talkers = JSON.parse(await fs.readFile(talkerJson));
   const oneTalker = {
     id: talkers.length + 1,
