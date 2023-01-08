@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs/promises');
-const { validateInputs } = require('./Services/Functions');
+const { validateInputs } = require('./middlewares/validateLogin');
+const { validateInfo } = require('./middlewares/validateTalker');
 
 const talkerJson = path.resolve(__dirname, './talker.json');
 
@@ -37,4 +38,15 @@ app.get('/talker/:id', async (req, res) => {
 app.post('/login', validateInputs, (req, res) => {
   const id = Math.random().toString().substring(0, 16);
   res.status(200).json({ token: id });
+});
+
+app.post('/talker', validateInfo, async (req, res) => {
+  const talkers = JSON.parse(await fs.readFile(talkerJson));
+  const oneTalker = {
+    id: talkers.length + 1,
+    ...req.body,
+  };
+  talkers.push(oneTalker);
+  await fs.writeFile(talkerJson, JSON.stringify(talkers, null, 2));
+  res.status(201).json(oneTalker);
 });
