@@ -65,7 +65,21 @@ app.post('/talker',
   res.status(201).json(oneTalker);
 });
 
-app.put('talker/:id', async (req, res) => {
-  const talkerById = 'a';
-  res.status(201).json(talkerById);
+app.put('/talker/:id', 
+  authToken,
+  authName, 
+  authAge, 
+  authTalk, 
+  authRate,
+  authWatchedAt,
+  async (req, res) => {
+  const { id } = req.params;
+  const talkers = JSON.parse(await fs.readFile(talkerJson));
+  const index = talkers.findIndex((talker) => talker.id === Number(id));
+  talkers[index] = {
+    id: Number(id),
+    ...req.body,
+  };
+  await fs.writeFile(talkerJson, JSON.stringify(talkers, null, 2));
+  res.status(200).json(talkers[index]);
 });

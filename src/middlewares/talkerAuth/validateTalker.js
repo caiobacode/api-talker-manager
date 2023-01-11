@@ -46,7 +46,7 @@ const authRate = (req, res, next) => {
   const invalidRateMessage = { message: 'O campo "rate" deve ser um inteiro de 1 à 5' };
   const integerOrNot = !Number.isInteger(rate);
 
-  if (!rate) return res.status(400).json(emptyRateMessage);
+  if (rate === undefined) return res.status(400).json(emptyRateMessage);
   if (rate < 1 || rate > 5 || integerOrNot) return res.status(400).json(invalidRateMessage);
 
   next();
