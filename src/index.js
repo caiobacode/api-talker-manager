@@ -83,3 +83,11 @@ app.put('/talker/:id',
   await fs.writeFile(talkerJson, JSON.stringify(talkers, null, 2));
   res.status(200).json(talkers[index]);
 });
+
+app.delete('/talker/:id', authToken, async (req, res) => {
+  const { id } = req.params;
+  const talkers = JSON.parse(await fs.readFile(talkerJson));
+  const newTalkers = talkers.filter((talker) => talker.id !== Number(id));
+  await fs.writeFile(talkerJson, JSON.stringify(newTalkers, null, 2));
+  res.status(204).end();
+});
