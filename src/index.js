@@ -64,3 +64,8 @@ app.post('/talker',
   await fs.writeFile(talkerJson, JSON.stringify(talkers, null, 2));
   res.status(201).json(oneTalker);
 });
+
+app.put('talker/:id', async (req, res) => {
+  const talkerById = 'a';
+  res.status(201).json(talkerById);
+});
