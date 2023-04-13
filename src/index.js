@@ -21,7 +21,7 @@ const PORT = '3000';
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
-  response.status(HTTP_OK_STATUS).send();
+  response.status(HTTP_OK_STATUS).send('oi');
 });
 
 app.listen(PORT, () => {
@@ -31,7 +31,13 @@ app.listen(PORT, () => {
 app.get('/talker', async (req, res) => {
   const data = JSON.parse(await fs.readFile(talkerJson));
   res.status(200).json(data);
-  console.log(req);
+});
+
+app.get('/talker/search', authToken, async (req, res) => {
+  const query = Object.values(req.query)[0];
+  const talkers = JSON.parse(await fs.readFile(talkerJson));
+  const data = talkers.filter((talker) => talker.name.includes(query));
+  res.status(200).json(data);
 });
 
 app.get('/talker/:id', async (req, res) => {

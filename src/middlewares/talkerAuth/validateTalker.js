@@ -5,7 +5,7 @@ const authToken = (req, res, next) => {
   
   if (!authorization) return res.status(401).json(emptyTokenMessage);
   if (authorization.length !== 16) return res.status(401).json(invalidTokenMsg);
-
+  
   next();
 };
 
