@@ -37,7 +37,7 @@ git clone https://github.com/caiobacode/api-talker-manager.git
 cd api-talker-manager
 
 # Install dependencies
-npm i
+npm install
 
 # Run App
 npm run dev
